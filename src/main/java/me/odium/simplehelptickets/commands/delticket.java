@@ -104,7 +104,10 @@ public class delticket implements CommandExecutor {
             rs.next(); //sets pointer to first record in result set
           }
           String playerUUID = player.getUniqueId().toString();
-          if (!rs.getString("uuid").equals(playerUUID) && !player.hasPermission("sht.admin")) {
+          if (player.hasPermission("sht.delticket")){
+            sender.sendMessage(plugin.GRAY+"[SimpleHelpTickets] "+plugin.RED+"You dont have permission to delete tickets.");
+            return true;
+          } else if (!rs.getString("uuid").equals(playerUUID) && !player.hasPermission("sht.admin")) {
             sender.sendMessage(plugin.GRAY+"[SimpleHelpTickets] "+plugin.RED+"Ticket "+rs.getString("id")+" is not your ticket to delete.");
             return true;
           } else {
