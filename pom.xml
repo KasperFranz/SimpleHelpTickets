@@ -5,15 +5,15 @@
     <version>2.2.5</version>
     
     <name>SimpleHelpTicket</name>
-   <properties>
-            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <dependencies>
         <dependency>
-	   <groupId>org.bukkit</groupId>
+            <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-	    <version>RELEASE</version>
-	    <type>jar</type>
+            <version>RELEASE</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -27,6 +27,17 @@
             <version>R8-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>net.gpedro.integrations.slack</groupId>
+            <artifactId>slack-webhook</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+        
     </dependencies>
     <build>
         <finalName>${project.name}</finalName>
@@ -35,14 +46,14 @@
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>
                 <configuration>
-                        <additionalProjectnatures>
-                                <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
-                        </additionalProjectnatures>
-                        <buildcommands>
-                                <buildcommand>org.eclipse.jdt.core.javabuilder</buildcommand>
-                                <buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand>
-                        </buildcommands>
-                        <useProjectReferences>false</useProjectReferences>
+                    <additionalProjectnatures>
+                        <projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
+                    </additionalProjectnatures>
+                    <buildcommands>
+                        <buildcommand>org.eclipse.jdt.core.javabuilder</buildcommand>
+                        <buildcommand>org.eclipse.m2e.core.maven2Builder</buildcommand>
+                    </buildcommands>
+                    <useProjectReferences>false</useProjectReferences>
                 </configuration>
             </plugin>
             <plugin>
@@ -50,31 +61,53 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>net.gpedro.integrations.slack:slack-webhook</include>
+                            <include>com.google.code.gson:gson</include>
+                        </includes>
+                    </artifactSet>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <resources>
             <resource>
-                    <directory>src/main/resources</directory>
-                    <filtering>true</filtering>
-                    <includes>
-                            <include>plugin.yml</include>
-                            <include>config.yml</include>		
-                            <include>output.yml</include>
-                    </includes>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>		
+                    <include>output.yml</include>
+                </includes>
             </resource>
         </resources>
-	</build>
-	<repositories>
-		<repository>
-			<id>bukkit-repo</id>
-			<url>http://repo.bukkit.org/content/groups/public</url>
-		</repository>
-                <repository>
-                        <id>Plugin Metrics</id>
-                        <url>http://repo.mcstats.org/content/repositories/public</url>
-                </repository>
-	</repositories>
+    </build>
+    <repositories>
+        <repository>
+            <id>bukkit-repo</id>
+            <url>http://repo.bukkit.org/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>Plugin Metrics</id>
+            <url>http://repo.mcstats.org/content/repositories/public</url>
+        </repository>
+    </repositories>
 </project>

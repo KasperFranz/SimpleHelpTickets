@@ -8,6 +8,8 @@ import java.util.Arrays;
 
 import me.odium.simplehelptickets.SimpleHelpTickets;
 import me.odium.simplehelptickets.DBConnection;
+import net.gpedro.integrations.slack.SlackApi;
+import net.gpedro.integrations.slack.SlackMessage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -215,6 +217,9 @@ public class ticket implements CommandExecutor {
                   onlinePlayer.sendMessage(plugin.getMessage("TicketOpenADMIN").replace("%player", sender.getName()));
                 }
               }
+              
+                SlackApi api = new SlackApi(plugin.getConfig().getString("Slack.webhook"));
+                api.call(new SlackMessage(sender.getName() +" has just opened a new ticket: \n\n"+details));
             } catch(Exception e) {
               sender.sendMessage(plugin.getMessage("Error").replace("&arg", e.toString()));
             }

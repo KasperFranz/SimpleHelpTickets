@@ -39,3 +39,5 @@ MySQL:
   database: tickets
   user: MYSQLUSER
   password: MYSQLPASS
+Slack:
+  webhook: YOURWEBHOOKHERE
