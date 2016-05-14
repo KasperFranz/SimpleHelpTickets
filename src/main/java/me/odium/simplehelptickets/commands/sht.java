@@ -1,6 +1,7 @@
 package me.odium.simplehelptickets.commands;
 
 import java.io.File;
+import java.util.UUID;
 
 import me.odium.simplehelptickets.SimpleHelpTickets;
 
@@ -66,7 +67,9 @@ public class sht implements CommandExecutor {
     } else if (args.length == 1 && args[0].equalsIgnoreCase("check")) {
       String uuid = player.getUniqueId().toString();
       player.sendMessage(ChatColor.BLUE+"Your UUID: "+ChatColor.RESET+uuid);
-      String uuidName = Bukkit.getOfflinePlayer(uuid).getName();
+
+      UUID pID = UUID.fromString(uuid);
+      String uuidName = Bukkit.getServer().getPlayer(pID).getName();
       player.sendMessage(ChatColor.BLUE+"Your Name "+ChatColor.RESET+uuidName);
     }
 

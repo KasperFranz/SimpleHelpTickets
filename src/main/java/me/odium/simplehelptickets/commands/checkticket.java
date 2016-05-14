@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 import me.odium.simplehelptickets.DBConnection;
 import me.odium.simplehelptickets.SimpleHelpTickets;
 
@@ -65,7 +66,8 @@ public class checkticket implements CommandExecutor {
           String expiration;
 
           String id = rs.getString("id");
-          String owner = Bukkit.getOfflinePlayer(rs.getString("uuid")).getName();
+          UUID pID = UUID.fromString(rs.getString("uuid"));
+          String owner = Bukkit.getServer().getPlayer(pID).getName();
 
           if (plugin.getConfig().getBoolean("MySQL.USE_MYSQL")) {
             date = new SimpleDateFormat("dd/MMM/yy HH:mm").format(rs.getTimestamp("date"));  
