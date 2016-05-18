@@ -206,6 +206,13 @@ public class ticket implements CommandExecutor {
               statement.setString(15, expire);
 
               statement.executeUpdate();
+              
+               ResultSet rs = statement.getGeneratedKeys();
+               int last_inserted_id = 0;
+               if(rs.next())
+               {
+                   last_inserted_id = rs.getInt(1);
+               }
               statement.close();
 
               // Message player and finish
@@ -219,7 +226,7 @@ public class ticket implements CommandExecutor {
               }
               
                 SlackApi api = new SlackApi(plugin.getConfig().getString("Slack.webhook"));
-                api.call(new SlackMessage(sender.getName() +" has just opened a new ticket: \n\n"+details));
+                api.call(new SlackMessage(sender.getName() +" has just opened a new ticket ("+last_inserted_id+"): \n\n"+details));
             } catch(Exception e) {
               sender.sendMessage(plugin.getMessage("Error").replace("&arg", e.toString()));
             }

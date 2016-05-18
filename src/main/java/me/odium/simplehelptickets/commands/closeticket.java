@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 
 import me.odium.simplehelptickets.DBConnection;
 import me.odium.simplehelptickets.SimpleHelpTickets;
+import net.gpedro.integrations.slack.SlackApi;
+import net.gpedro.integrations.slack.SlackMessage;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -89,7 +91,11 @@ public class closeticket implements CommandExecutor {
           // UPDATE THE TICKET
           stmt.executeUpdate("UPDATE SHT_Tickets SET status='"+"CLOSED"+"', admin='"+admin+"', expiration='"+expiration+"' WHERE id='"+id+"'");
           sender.sendMessage(plugin.getMessage("TicketClosed").replace("&arg", ""+id));
-
+          
+          //send to slack :)
+          SlackApi api = new SlackApi(plugin.getConfig().getString("Slack.webhook"));
+          api.call(new SlackMessage(admin +" has just closed ticket "+id));
+          
           stmt.close();
           rs.close();
           // IF TICKETOWNER IS ONLINE, AND NOT THE USER WHO TRIGGERED THE EVENT, LET THEM KNOW OF THE CHANGE TO THEIR TICKET
