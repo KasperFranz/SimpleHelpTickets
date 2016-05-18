@@ -26,6 +26,7 @@ public class ticket implements CommandExecutor {
 
   String date;
   String uuid;
+  String username;
   String world;
   double locX;
   double locY;
@@ -74,6 +75,7 @@ public class ticket implements CommandExecutor {
             // SET VARIABLES FOR CONSOLE
             date = plugin.getCurrentDTG("date");
             uuid = "CONSOLE";
+            username = "CONSOLE";
             world = "NONE";
             locX = 00;
             locY = 00;
@@ -89,6 +91,7 @@ public class ticket implements CommandExecutor {
             // SET VARIABLES FOR PLAYER
             date = plugin.getCurrentDTG("date");
             uuid = player.getUniqueId().toString();
+            username = player.getName();
             world = player.getWorld().getName();
             locX = player.getLocation().getX();
             locY = player.getLocation().getY();
@@ -128,23 +131,24 @@ public class ticket implements CommandExecutor {
             try {
               con = plugin.mysql.getConnection();
               stmt = con.createStatement();
-              PreparedStatement statement = con.prepareStatement("insert into SHT_Tickets(description, date, uuid, world, x, y, z, p, f, adminreply, userreply, status, admin, expiration) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+              PreparedStatement statement = con.prepareStatement("insert into SHT_Tickets(description, date, uuid,username, world, x, y, z, p, f, adminreply, userreply, status, admin, expiration) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
               // INSERT INTO lyrics1(name, artist) values(?, ?) [Example]
 
               statement.setString(1, details);              
               statement.setString(2, date );             
-              statement.setString(3, uuid);
-              statement.setString(4, world);
-              statement.setDouble(5, locX);
-              statement.setDouble(6, locY);
-              statement.setDouble(7, locZ);
-              statement.setDouble(8, locP);
-              statement.setDouble(9, locF);
-              statement.setString(10, adminreply);
-              statement.setString(11, userreply);
-              statement.setString(12, status);
-              statement.setString(13, admin);
-              statement.setString(14, expire);
+              statement.setString(3, uuid);             
+              statement.setString(4, username);
+              statement.setString(5, world);
+              statement.setDouble(6, locX);
+              statement.setDouble(7, locY);
+              statement.setDouble(8, locZ);
+              statement.setDouble(9, locP);
+              statement.setDouble(10, locF);
+              statement.setString(11, adminreply);
+              statement.setString(12, userreply);
+              statement.setString(13, status);
+              statement.setString(14, admin);
+              statement.setString(15, expire);
 
               statement.executeUpdate();
               statement.close();
@@ -154,7 +158,7 @@ public class ticket implements CommandExecutor {
               // Notify admin of new ticket
               Player[] players = Bukkit.getOnlinePlayers();
               for(Player onlinePlayer: players){ // for every player online
-                if(onlinePlayer.hasPermission("sht.admin") && onlinePlayer.getUniqueId().toString() != uuid) { // if admin perm & not ticket owner                     
+                if(onlinePlayer.hasPermission("sht.admin") && !onlinePlayer.getUniqueId().toString().equals(uuid)) { // if admin perm & not ticket owner                     
                   onlinePlayer.sendMessage(plugin.getMessage("TicketOpenADMIN").replace("%player", sender.getName()));
                 }
               }
@@ -187,12 +191,13 @@ public class ticket implements CommandExecutor {
             try {        
               con = service.getConnection();
               stmt = con.createStatement();
-              PreparedStatement statement = con.prepareStatement("insert into SHT_Tickets values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
-              // description, date, owner, world, x, y, z, p, f, reply, status, admin
+              PreparedStatement statement = con.prepareStatement("insert into SHT_Tickets(description, date, uuid,username, world, x, y, z, p, f, adminreply, userreply, status, admin, expiration) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+              // INSERT INTO lyrics1(name, artist) values(?, ?) [Example]
 
-              statement.setString(2, details);              
-              statement.setString(3, date);             
-              statement.setString(4, uuid);
+              statement.setString(1, details);              
+              statement.setString(2, date );             
+              statement.setString(3, uuid);             
+              statement.setString(4, username);
               statement.setString(5, world);
               statement.setDouble(6, locX);
               statement.setDouble(7, locY);
