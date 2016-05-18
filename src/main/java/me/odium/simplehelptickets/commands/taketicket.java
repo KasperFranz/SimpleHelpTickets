@@ -86,7 +86,7 @@ public class taketicket implements CommandExecutor {
       //String owner = rs.getString("owner");
       UUID pID = UUID.fromString(rs.getString("UUID"));
       Player target = Bukkit.getServer().getPlayer(pID);
-      String owner =target.getName();
+      String owner = rs.getString("username");
       if (plugin.getConfig().getBoolean("MultiWorld") == true) {
         worldName = rs.getString("world");
       }
