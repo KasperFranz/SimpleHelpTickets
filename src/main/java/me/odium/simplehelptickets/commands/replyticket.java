@@ -137,7 +137,7 @@ public class replyticket implements CommandExecutor {
                         rs.next(); //sets pointer to first record in result set
                     }
                     // IF PLAYER IS THE TICKET OWNER
-                    if (player.getUniqueId().equals((rs.getString("uuid")))) {
+                    if (player.getUniqueId().toString().equals((rs.getString("uuid")))) {
 
                         stmt.executeUpdate("UPDATE SHT_Tickets SET userreply='" + details + "' WHERE id='" + id + "'");
                         sender.sendMessage(plugin.getMessage("AdminRepliedToTicket").replace("&arg", id));
