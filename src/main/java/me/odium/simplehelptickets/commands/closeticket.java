@@ -182,7 +182,7 @@ public class closeticket implements CommandExecutor {
                     
                     // INFORM ADMINS OF CHANGES TOT ICKET
                     for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) { 
-                        if (onlinePlayer.hasPermission("sht.admin") && plugin.getConfig().getBoolean("NotifyAdminOnTicketClose") && op != sender) {
+                        if (onlinePlayer.hasPermission("sht.admin") && plugin.getConfig().getBoolean("NotifyAdminOnTicketClose") && onlinePlayer != sender) {
                             onlinePlayer.sendMessage(plugin.getMessage("TicketReopenedADMIN").replace("&arg", "" + id).replace("&admin", admin));
                         }
                     }
