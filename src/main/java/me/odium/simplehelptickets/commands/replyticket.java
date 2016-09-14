@@ -154,10 +154,9 @@ public class replyticket implements CommandExecutor {
                                 rs.next(); //sets pointer to first record in result set
                             }
 
-                            Player[] players = Bukkit.getOnlinePlayers();
-                            for (Player op : players) {
-                                if (op.hasPermission("sht.admin") && op != player) {
-                                    op.sendMessage(plugin.getMessage("UserRepliedToTicket").replace("%player", player.getName()).replace("&arg", id));
+                            for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) { 
+                                if (onlinePlayer.hasPermission("sht.admin") && onlinePlayer != player) {
+                                    onlinePlayer.sendMessage(plugin.getMessage("UserRepliedToTicket").replace("%player", player.getName()).replace("&arg", id));
                                 }
                             }
                         } catch (Exception e) {
@@ -179,10 +178,10 @@ public class replyticket implements CommandExecutor {
 
                         stmt.executeUpdate("UPDATE SHT_Tickets SET adminreply='" + admin + ": " + details + "', admin='" + admin + "' WHERE id='" + id + "'");
                         // INFORM OPS THAT AN ADMIN REPLIED TO TICKET
-                        Player[] players = Bukkit.getOnlinePlayers();
-                        for (Player op : players) {
-                            if (op.hasPermission("sht.admin")) {
-                                op.sendMessage(plugin.getMessage("AdminRepliedToTicket").replace("&arg", id));
+                        
+                        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) { 
+                            if (onlinePlayer.hasPermission("sht.admin")) {
+                                onlinePlayer.sendMessage(plugin.getMessage("AdminRepliedToTicket").replace("&arg", id));
                             }
                         }
 

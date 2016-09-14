@@ -144,10 +144,10 @@ public class taketicket implements CommandExecutor {
             // ASSIGN ADMIN
             stmt.executeUpdate("UPDATE SHT_Tickets SET admin='" + admin + "' WHERE id='" + id + "'");
             // NOTIFY -OTHER- ADMINS 
-            Player[] players = Bukkit.getOnlinePlayers();
-            for (Player op : players) {
-                if (op.hasPermission("sht.admin") && op != player) {
-                    op.sendMessage(plugin.getMessage("TakeTicketADMIN").replace("&arg", id).replace("&admin", admin));
+            
+            for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) { 
+                if (onlinePlayer.hasPermission("sht.admin") && onlinePlayer != player) {
+                    onlinePlayer.sendMessage(plugin.getMessage("TakeTicketADMIN").replace("&arg", id).replace("&admin", admin));
                 }
             }
             // NOTIFY USER

@@ -103,10 +103,10 @@ public class closeticket implements CommandExecutor {
                         target.sendMessage(plugin.getMessage("TicketClosedOWNER").replace("&arg", "" + id).replace("&admin", admin));
                     }
                     // NOTIFY ADMINS OF CHANGE TO TICKET
-                    Player[] players = Bukkit.getOnlinePlayers();
-                    for (Player op : players) {
-                        if (op.hasPermission("sht.admin") && plugin.getConfig().getBoolean("NotifyAdminOnTicketClose") && op != sender) {
-                            op.sendMessage(plugin.getMessage("TicketClosedADMIN").replace("&arg", "" + args[0]).replace("&admin", admin));
+                    
+                    for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) { 
+                        if (onlinePlayer.hasPermission("sht.admin") && plugin.getConfig().getBoolean("NotifyAdminOnTicketClose") && onlinePlayer != sender) {
+                            onlinePlayer.sendMessage(plugin.getMessage("TicketClosedADMIN").replace("&arg", "" + args[0]).replace("&admin", admin));
                         }
                     }
                     return true;
@@ -179,11 +179,11 @@ public class closeticket implements CommandExecutor {
                     if (target != null && target != player) {
                         target.sendMessage(plugin.getMessage("TicketReopenedOWNER").replace("&arg", "" + id).replace("&admin", admin));
                     }
+                    
                     // INFORM ADMINS OF CHANGES TOT ICKET
-                    Player[] players = Bukkit.getOnlinePlayers();
-                    for (Player op : players) {
-                        if (op.hasPermission("sht.admin") && plugin.getConfig().getBoolean("NotifyAdminOnTicketClose") && op != sender) {
-                            op.sendMessage(plugin.getMessage("TicketReopenedADMIN").replace("&arg", "" + id).replace("&admin", admin));
+                    for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) { 
+                        if (onlinePlayer.hasPermission("sht.admin") && plugin.getConfig().getBoolean("NotifyAdminOnTicketClose") && op != sender) {
+                            onlinePlayer.sendMessage(plugin.getMessage("TicketReopenedADMIN").replace("&arg", "" + id).replace("&admin", admin));
                         }
                     }
                     return true;
